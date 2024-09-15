@@ -1,10 +1,16 @@
-﻿@model Trainer
+﻿@model JuliePro.Models.Trainer
 
-@{
+@if (Model.Id != 0)
+{
+    ViewData["Title"] = "Edit";
+}
+else
+{
     ViewData["Title"] = "Create";
 }
 
-<h1>Create</h1>
+
+<h1> @ViewData["Title"] </h1>
 
 <h4>Trainer</h4>
 <hr />
@@ -12,6 +18,7 @@
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input asp-for="Id" class="form-control" hidden />
             <div class="form-group">
                 <label asp-for="FirstName" class="control-label"></label>
                 <input asp-for="FirstName" class="form-control" />

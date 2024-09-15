@@ -42,8 +42,8 @@ namespace JuliePro.Controllers
             return View(trainer);
         }
 
-        // GET: Trainers/Upster
-        public IActionResult Upster(int? id)
+        // GET: Trainers/Upsert
+        public IActionResult Upsert(int? id)
         {
             if (id == null || id == 0)
             {
@@ -63,15 +63,25 @@ namespace JuliePro.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,FirstName,LastName,Email,Photo,SpecialityId")] Trainer trainer)
+        public async Task<IActionResult> Upsert(Trainer trainer)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(trainer);
+                if (trainer.Id == 0)
+                {
+                    _context.Trainer.Add(trainer);
+                    TempData["Success"] = $"{trainer.LastName} trainer added";
+                }
+                else
+                {
+                    _context.Trainer.Update(trainer);
+                    TempData["Success"] = $"{trainer.LastName} trainer update";
+                }
+
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return this.RedirectToAction(nameof(Index));
             }
-            ViewData["SpecialityId"] = new SelectList(_context.Speciality, "Id", "Name", trainer.SpecialityId);
+            //ViewData["SpecialityId"] = new SelectList(_context.Speciality, "Id", "Name", trainer.SpecialityId);
             return View(trainer);
         }
 
