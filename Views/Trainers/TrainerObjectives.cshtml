@@ -1,0 +1,38 @@
+@model TrainerObjectivesVM
+
+<div class="accordion-item">
+    <h2 class="accordion-header">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#@Model.CollapserId" aria-expanded="false" aria-controls="@Model.CollapserId">
+            @Model.TrainerFullName - @Model.TrainerSpecialityName
+        </button>
+    </h2>
+    <div id="@Model.CollapserId" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+        <div class="accordion-body">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.CustomerObjectives.First().CustomerFullName)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.CustomerObjectives.First().NbCompletedObjectives)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.CustomerObjectives.First().NbIncompletedObjectives)
+                        </th>
+                        <th>
+                            Status
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.CustomerObjectives)
+                    {
+                        <partial name="CustomerObjectives" model="item"/>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+

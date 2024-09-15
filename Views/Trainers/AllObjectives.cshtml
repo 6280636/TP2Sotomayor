@@ -1,0 +1,16 @@
+@model IEnumerable<TrainerObjectivesVM>
+
+@{
+    ViewData["Title"] = "Objectives";
+}
+
+<h1>Objectives</h1>
+
+
+<div class="accordion" id="accordionExample">
+    @foreach(var item in Model)
+    {
+        <partial name="TrainerObjectives" model="item"/>
+    }
+
+</div>
