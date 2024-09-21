@@ -1,0 +1,28 @@
+@model CustomerObjectivesVM
+
+<tr>
+    <td>
+        @Model.CustomerFullName
+    </td>
+    <td>
+        @Model.NbCompletedObjectives
+    </td>
+    <td>
+        @Model.NbIncompletedObjectives
+    </td>
+    <td>
+        @if (Model.NbIncompletedObjectives == 0)
+        {
+            <span class="text-warning">It's time to set a new objective!</span>
+
+        }
+        else if (Model.NbIncompletedObjectives > 1)
+        {
+            <span class="text-danger">Shouldn't have more than 1 current objective!</span>
+        }
+        else
+        {
+            <span class="text-success">Keep focusing on that objective!</span>
+        }
+    </td>
+</tr>
