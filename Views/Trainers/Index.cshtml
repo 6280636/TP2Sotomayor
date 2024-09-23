@@ -1,14 +1,9 @@
 @model IEnumerable<Trainer>
 
-@{
-    ViewData["Title"] = "Trainers Index";
-}
-
-<h1>Index</h1>
-<h4>Trainers</h4>
+<h1>@ViewBag.Title</h1>
 
 <p>
-    <a asp-action="Upsert">Create New</a>
+    <a asp-action="Upsert">@Locals["New"]</a>
 </p>
 <table class="table">
     <thead>

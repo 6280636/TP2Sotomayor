@@ -1,18 +1,18 @@
 ﻿@model JuliePro.Models.Trainer
 
-@if (Model.Id != 0)
+@* @if (Model.Id != 0)
 {
     ViewData["Title"] = "Edit";
 }
 else
 {
     ViewData["Title"] = "Create";
-}
+} *@
 
 
-<h1> @ViewData["Title"] </h1>
+<h1>@ViewBag.Title</h1> @* @ViewData["Title"] *@
 
-<h4>Trainer</h4>
+<h4>@Locals["Trainer"]</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">

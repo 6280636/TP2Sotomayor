@@ -4,22 +4,27 @@ using JuliePro.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Localization;
 
 namespace JuliePro.Controllers
 {
     public class TrainersController : Controller
     {
         private readonly JulieProDbContext _context;
+        private readonly IStringLocalizer<TrainersController> _localizer;
 
-        public TrainersController(JulieProDbContext context)
+        public TrainersController(JulieProDbContext context, IStringLocalizer<TrainersController> localizer)
         {
             _context = context;
+            _localizer = localizer;
+
         }
 
         // GET: Trainers
         public async Task<IActionResult> Index()
         {
-            var trainers = _context.Trainer.Include(t => t.Speciality).OrderBy(t => t.FirstName).ThenBy(t => t.LastName);
+            ViewBag.Title = _localizer["IndexTitle"];
+            var trainers = _context.Trainer.Include(t => t.Speciality).OrderBy(t => t.FirstName).ThenBy(t => t.LastName);            
             return View(await trainers.ToListAsync());
         }
 
@@ -47,10 +52,12 @@ namespace JuliePro.Controllers
         {
             if (id == null || id == 0)
             {
+                ViewBag.Title = _localizer["CreateTitle"];
                 return View(new Trainer());
             }
             else
             {
+                ViewBag.Title = _localizer["EditTitle"];
                 return View (_context.Trainer.Find(id));
             }
 
