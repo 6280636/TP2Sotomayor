@@ -4,22 +4,27 @@ using JuliePro.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Localization;
 
 namespace JuliePro.Controllers
 {
     public class TrainersController : Controller
     {
         private readonly JulieProDbContext _context;
+        private readonly IStringLocalizer<TrainersController> _localizer;
 
-        public TrainersController(JulieProDbContext context)
+        public TrainersController(JulieProDbContext context, IStringLocalizer<TrainersController> localizer)
         {
             _context = context;
+            _localizer = localizer;
+
         }
 
         // GET: Trainers
         public async Task<IActionResult> Index()
         {
-            var trainers = _context.Trainer.Include(t => t.Speciality).OrderBy(t => t.FirstName).ThenBy(t => t.LastName);
+            ViewBag.Title = _localizer["IndexTitle"];
+            var trainers = _context.Trainer.Include(t => t.Speciality).OrderBy(t => t.FirstName).ThenBy(t => t.LastName);            
             return View(await trainers.ToListAsync());
         }
 
@@ -47,10 +52,12 @@ namespace JuliePro.Controllers
         {
             if (id == null || id == 0)
             {
+                ViewBag.Title = _localizer["CreateTitle"];
                 return View(new Trainer());
             }
             else
             {
+                ViewBag.Title = _localizer["EditTitle"];
                 return View (_context.Trainer.Find(id));
             }
 
@@ -86,57 +93,57 @@ namespace JuliePro.Controllers
         }
 
         // GET: Trainers/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
+        //public async Task<IActionResult> Edit(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            var trainer = await _context.Trainer.FindAsync(id);
-            if (trainer == null)
-            {
-                return NotFound();
-            }
-            ViewData["SpecialityId"] = new SelectList(_context.Speciality, "Id", "Name", trainer.SpecialityId);
-            return View(trainer);
-        }
+        //    var trainer = await _context.Trainer.FindAsync(id);
+        //    if (trainer == null)
+        //    {
+        //        return NotFound();
+        //    }
+        //    ViewData["SpecialityId"] = new SelectList(_context.Speciality, "Id", "Name", trainer.SpecialityId);
+        //    return View(trainer);
+        //}
 
-        // POST: Trainers/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,FirstName,LastName,Email,Photo,SpecialityId")] Trainer trainer)
-        {
-            if (id != trainer.Id)
-            {
-                return NotFound();
-            }
+        //// POST: Trainers/Edit/5
+        //// To protect from overposting attacks, enable the specific properties you want to bind to.
+        //// For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> Edit(int id, [Bind("Id,FirstName,LastName,Email,Photo,SpecialityId")] Trainer trainer)
+        //{
+        //    if (id != trainer.Id)
+        //    {
+        //        return NotFound();
+        //    }
 
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(trainer);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!TrainerExists(trainer.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["SpecialityId"] = new SelectList(_context.Speciality, "Id", "Name", trainer.SpecialityId);
-            return View(trainer);
-        }
+        //    if (ModelState.IsValid)
+        //    {
+        //        try
+        //        {
+        //            _context.Update(trainer);
+        //            await _context.SaveChangesAsync();
+        //        }
+        //        catch (DbUpdateConcurrencyException)
+        //        {
+        //            if (!TrainerExists(trainer.Id))
+        //            {
+        //                return NotFound();
+        //            }
+        //            else
+        //            {
+        //                throw;
+        //            }
+        //        }
+        //        return RedirectToAction(nameof(Index));
+        //    }
+        //    ViewData["SpecialityId"] = new SelectList(_context.Speciality, "Id", "Name", trainer.SpecialityId);
+        //    return View(trainer);
+        //}
 
         // GET: Trainers/Delete/5
         public async Task<IActionResult> Delete(int? id)
