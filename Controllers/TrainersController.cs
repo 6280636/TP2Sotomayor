@@ -1,6 +1,7 @@
 ﻿using JuliePro.Data;
 using JuliePro.Models;
 using JuliePro.Models.ViewModels;
+using JuliePro.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -10,13 +11,15 @@ namespace JuliePro.Controllers
 {
     public class TrainersController : Controller
     {
+        private ITrainerServices _serviceT { get; set; }
         private readonly JulieProDbContext _context;
         private readonly IStringLocalizer<TrainersController> _localizer;
 
-        public TrainersController(JulieProDbContext context, IStringLocalizer<TrainersController> localizer)
+        public TrainersController(JulieProDbContext context, IStringLocalizer<TrainersController> localizer,ITrainerServices servicesT)
         {
             _context = context;
             _localizer = localizer;
+            _serviceT = servicesT;
 
         }
 

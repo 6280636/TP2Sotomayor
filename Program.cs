@@ -1,4 +1,5 @@
 using JuliePro.Data;
+using JuliePro.Services;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.EntityFrameworkCore;
@@ -19,6 +20,7 @@ builder.Services.AddDbContext<JulieProDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("JulieProContext") ?? throw new InvalidOperationException("Connection string 'JulieProContext' not found."))
     .UseLazyLoadingProxies();
+    
 });
 
 builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
@@ -35,7 +37,8 @@ builder.Services.Configure<RequestLocalizationOptions>(options =>
     options.SupportedUICultures = supportedCultures;
 });
 
-
+builder.Services.AddScoped(typeof(IServiceBaseAsync<>), typeof(ServiceBaseAsync<>));
+builder.Services.AddScoped<ITrainerServices, TrainerService>();
 
 var app = builder.Build();
 
