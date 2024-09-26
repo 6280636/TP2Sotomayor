@@ -27,8 +27,10 @@ namespace JuliePro.Controllers
         public async Task<IActionResult> Index()
         {
             ViewBag.Title = _localizer["IndexTitle"];
-            var trainers = _context.Trainer.Include(t => t.Speciality).OrderBy(t => t.FirstName).ThenBy(t => t.LastName);            
-            return View(await trainers.ToListAsync());
+            //var trainers = _context.Trainer.Include(t => t.Speciality).OrderBy(t => t.FirstName).ThenBy(t => t.LastName);
+
+            var trainers = await _serviceT.GetAllAsync();
+            return View(trainers);
         }
 
         // GET: Trainers/Details/5
@@ -156,9 +158,8 @@ namespace JuliePro.Controllers
                 return NotFound();
             }
 
-            var trainer = await _context.Trainer
-                .Include(t => t.Speciality)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var trainer = await _serviceT.GetByIdAsync((int)id);
+
             if (trainer == null)
             {
                 return NotFound();
@@ -172,13 +173,18 @@ namespace JuliePro.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var trainer = await _context.Trainer.FindAsync(id);
+            //var trainer = await _context.Trainer.FindAsync(id);
+
+            var trainer = await _serviceT.GetByIdAsync(id);
+
             if (trainer != null)
             {
-                _context.Trainer.Remove(trainer);
+                //_context.Trainer.Remove(trainer);
+
+                await _serviceT.DeleteAsync(id);
             }
             
-            await _context.SaveChangesAsync();
+            //await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
