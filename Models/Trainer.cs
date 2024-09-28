@@ -9,12 +9,12 @@ namespace JuliePro.Models
 
         [Display(Name = "FirstName")]
         [StringLength(25, MinimumLength = 4, ErrorMessage = "ValidationStringMinMax")]
-        //[StringLength(25, MinimumLength = 4)]
+        
         public string FirstName { get; set; }
 
         [Display(Name = "LastName")]
         [StringLength(25, MinimumLength = 4, ErrorMessage = "ValidationStringMinMax")]
-        //[StringLength(25, MinimumLength = 4)]
+        
         public string LastName { get; set; }
 
         [Display(Name = "Email")]
@@ -26,12 +26,19 @@ namespace JuliePro.Models
         //[MaxLength(40)]
         public string? Photo { get; set; }
 
+        [Display(Name = "SpecialityId")]
         public int SpecialityId { get; set; }
+
+        [Display(Name = "Description")]
+        [MaxLength(2500, ErrorMessage = "DescriptionMessage")]
+        [DataType(DataType.MultilineText)]
+        public string Description { get; set; }
 
         [Display(Name = "Speciality")]
         [ValidateNever]
         public virtual Speciality Speciality { get; set; }
-        
+
+        [Display(Name = "Customers")]
         [ValidateNever]
         public virtual List<Customer> Customers { get; set; }
     }

@@ -1,13 +1,5 @@
 ﻿@model JuliePro.Models.Trainer
 
-@* @if (Model.Id != 0)
-{
-    ViewData["Title"] = "Edit";
-}
-else
-{
-    ViewData["Title"] = "Create";
-} *@
 
 
 <h1>@ViewBag.Title</h1> @* @ViewData["Title"] *@
@@ -38,7 +30,12 @@ else
                 <label asp-for="Photo" class="control-label"></label>
                 <input asp-for="Photo" class="form-control" />
                 <span asp-validation-for="Photo" class="text-danger"></span>
-            </div>
+            </div>          
+            <div class="form-group mb-2">
+                <label asp-for="Description" class="control-label"></label>
+                <textarea class="form-control summernote" asp-for="Description">@Model.Description</textarea>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>            
             <div class="form-group">
                 <label asp-for="SpecialityId" class="control-label"></label>
                 <select asp-for="SpecialityId" class="form-control form-select" asp-items="ViewBag.SpecialityId"></select>

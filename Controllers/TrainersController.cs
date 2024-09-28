@@ -81,7 +81,7 @@ namespace JuliePro.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Upsert(Trainer trainer)
+        public async Task<IActionResult> Upsert([Bind("Id,FirstName,LastName,Email,Photo,Description,SpecialityId")] Trainer trainer)
         {
             if (ModelState.IsValid)
             {

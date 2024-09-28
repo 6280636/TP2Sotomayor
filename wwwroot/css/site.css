@@ -16,3 +16,8 @@ html {
 body {
   margin-bottom: 60px;
 }
+.highlight {
+    background-color: lightskyblue !important;
+    border: 2px solid #007bff;
+    cursor: pointer;
+}

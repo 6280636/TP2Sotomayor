@@ -18,6 +18,7 @@
             <td>
         @Html.DisplayFor(modelItem => Model.Speciality.Name)
             </td>
+            
     <td>
         <a asp-action="Upsert" asp-route-id="@Model.Id">@Locals["Edit"]</a> |
         <a asp-action="Details" asp-route-id="@Model.Id">@Locals["Details"]</a> |
