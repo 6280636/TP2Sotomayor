@@ -44,7 +44,7 @@ else
                 <select asp-for="SpecialityId" class="form-control form-select" asp-items="ViewBag.SpecialityId"></select>
             </div>
             <div class="form-group">
-                <partial name="_CreateAndBackToListButton" />
+                <partial name="@(Model.Id == 0 ? "_CreateAndBackToListButton" : "_EditAndBackToListButton" )" />
             </div>
         </form>
     </div>

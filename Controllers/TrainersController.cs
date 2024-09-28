@@ -27,8 +27,7 @@ namespace JuliePro.Controllers
         public async Task<IActionResult> Index()
         {
             ViewBag.Title = _localizer["IndexTitle"];
-            //var trainers = _context.Trainer.Include(t => t.Speciality).OrderBy(t => t.FirstName).ThenBy(t => t.LastName);
-
+            
             var trainers = await _serviceT.GetAllAsync();
             return View(trainers);
         }
@@ -41,9 +40,7 @@ namespace JuliePro.Controllers
                 return NotFound();
             }
             var trainer = await _serviceT.GetByIdAsync((int)id);
-            //var trainer = await _context.Trainer
-            //    .Include(t => t.Speciality)
-            //    .FirstOrDefaultAsync(m => m.Id == id);
+           
             if (trainer == null)
             {
                 return NotFound();
@@ -90,14 +87,12 @@ namespace JuliePro.Controllers
             {
                 if (trainer.Id == 0)
                 {
-                    //_context.Trainer.Add(trainer);
+                    
                     await _serviceT.CreateAsync(trainer);
                     TempData["Success"] = $"{trainer.LastName} trainer added";
                 }
                 else
-                {
-                    //await _serviceT.EditAsync(trainer);
-                    //TempData["Success"] = $"{trainer.LastName} trainer update";
+                {                   
 
                     try
                     {
@@ -116,9 +111,7 @@ namespace JuliePro.Controllers
                             throw;
                         }
                     }
-                }
-
-                //await _context.SaveChangesAsync();
+                }                
                 return this.RedirectToAction(nameof(Index));
             }
             ViewData["SpecialityId"] = new SelectList(_context.Speciality, "Id", "Name", trainer.SpecialityId);
@@ -147,19 +140,17 @@ namespace JuliePro.Controllers
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            //var trainer = await _context.Trainer.FindAsync(id);
+        {         
 
             var trainer = await _serviceT.GetByIdAsync(id);
 
             if (trainer != null)
-            {
-                //_context.Trainer.Remove(trainer);
+            {              
 
                 await _serviceT.DeleteAsync(id);
             }
             
-            //await _context.SaveChangesAsync();
+            
             return RedirectToAction(nameof(Index));
         }
 
