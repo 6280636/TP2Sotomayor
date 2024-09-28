@@ -1,6 +1,16 @@
 @model IEnumerable<Trainer>
 
 <h1>@ViewBag.Title</h1>
+<script>
+        $(document).ready(function () {
+
+            $('tr').hover(function(){
+                $(this).toggleClass("highlight");
+            });
+
+        });
+ </script>
+
 
 <p>
     <a asp-action="Upsert">@Locals["New"]</a>

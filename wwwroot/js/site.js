@@ -8,17 +8,25 @@ $(document).ready(function () {
         $(this).toggleClass("highlight");
     });
 
-    $('.summernote').summernote({
+
+    // summernote
+
+    $('#summernote').summernote({
         placeholder: 'Description ...',
-        height: 200,        
+        tabsize: 2,
+        height: 120,
         toolbar: [
+            // Limiter les outils visibles
             ['style', ['bold', 'italic']],
-            ['font', ['fontname', 'fontsize']],
-            ['para', ['ul', 'ol']]  
+            ['font', ['fontname']],
+            ['para', ['ul', 'ol']]
         ]
+
     });
-});
-var noteBar = $('.note-toolbar');
-noteBar.find('[data-toggle]').each(function () {
-    $(this).attr('data-bs-toggle', $(this).attr('data-toggle')).removeAttr('data-toggle');
+   
+    var noteBar = $('.note-toolbar');
+    noteBar.find('[data-toggle]').each(function () {
+        $(this).attr('data-bs-toggle', $(this).attr('data-toggle')).removeAttr('data-toggle');
+    });
+
 });
