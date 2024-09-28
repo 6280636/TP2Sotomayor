@@ -53,21 +53,30 @@ namespace JuliePro.Controllers
         }
 
         // GET: Trainers/Upsert
-        public IActionResult Upsert(int? id)
+        public async Task<IActionResult> Upsert(int? id)
         {
             if (id == null || id == 0)
             {
                 ViewBag.Title = _localizer["CreateTitle"];
+                ViewData["SpecialityId"] = new SelectList(_context.Speciality, "Id", "Name");
+
                 return View(new Trainer());
             }
             else
             {
                 ViewBag.Title = _localizer["EditTitle"];
-                return View (_context.Trainer.Find(id));
+
+                var trainer = await _serviceT.GetByIdAsync((int)id);
+
+                if (trainer == null)
+                {
+                    return NotFound();
+                }
+                ViewData["SpecialityId"] = new SelectList(_context.Speciality, "Id", "Name", trainer.SpecialityId);
+                return View(trainer);
             }
 
-            //ViewData["SpecialityId"] = new SelectList(_context.Speciality, "Id", "Name");
-            //return View();
+           
         }
 
         // POST: Trainers/Create
@@ -87,14 +96,32 @@ namespace JuliePro.Controllers
                 }
                 else
                 {
-                    await _serviceT.EditAsync(trainer);
-                    TempData["Success"] = $"{trainer.LastName} trainer update";
+                    //await _serviceT.EditAsync(trainer);
+                    //TempData["Success"] = $"{trainer.LastName} trainer update";
+
+                    try
+                    {
+                        await _serviceT.EditAsync(trainer);
+
+                        TempData["Success"] = $"{trainer.LastName} trainer update";
+                    }
+                    catch (DbUpdateConcurrencyException)
+                    {
+                        if (!TrainerExists(trainer.Id))
+                        {
+                            return NotFound();
+                        }
+                        else
+                        {
+                            throw;
+                        }
+                    }
                 }
 
                 //await _context.SaveChangesAsync();
                 return this.RedirectToAction(nameof(Index));
             }
-            //ViewData["SpecialityId"] = new SelectList(_context.Speciality, "Id", "Name", trainer.SpecialityId);
+            ViewData["SpecialityId"] = new SelectList(_context.Speciality, "Id", "Name", trainer.SpecialityId);
             return View(trainer);
         }      
 
